@@ -1,5 +1,7 @@
 # Topic and emotion evolution in news
 
+![topic_emotion](topic_emotion.jpg)
+
 Trending topics in news change from time to time. Do the emotions associated with these topics change as well? In this project, we proposed novel characterisations and measures for the evolution of topics and emotions in news based on Dirichlet Latent Allocation model. As for experimental contribution, we conducted topic modelling and sentiment analysis on a dataset consisting of 150,000 news article from 15 American publications using the PyData stack (numpy, pandas, and matplotlib) and scikit-learn.
 
 This repository includes:
