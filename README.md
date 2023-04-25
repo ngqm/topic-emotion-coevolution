@@ -4,7 +4,7 @@
 
 Trending topics in news change from time to time. Do the emotions associated with these topics change as well? In this project, we proposed novel characterisations and measures for the evolution of topics and emotions in news based on Dirichlet Latent Allocation model. As for experimental contribution, we conducted topic modelling and sentiment analysis on a dataset consisting of 150,000 news article from 15 American publications.
 
-This project is submitted as part of the final project of HSS302 Computational Social Science at KAIST, 
+This project is submitted as part of the final project of HSS312 Computational Social Science at KAIST, 
 offered in Fall 2021. The report is available [here](https://ngqm.github.io/blog/css-paper.pdf). This 
 repository includes our source code and documentation to reproduce our results.
 
