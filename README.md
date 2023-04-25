@@ -81,6 +81,13 @@ python visualise.py
 The figure should look like
 ![topic_emotion](figures/topic_emotion.jpg)
 
+## More visualisations
+
+We also provide animated visualisations, which can be produced using 
+the commented out sections in `visualise.py`:
+![scatter_animation](figures/scatter_animation.gif)
+![matrix_animation](figures/matrix_animation.gif)
+
 ## References 
 
 [1] Thompson A. (2017, August). *All the news*. Retrieved April 25, 2023 from 
