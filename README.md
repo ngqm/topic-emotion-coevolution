@@ -76,7 +76,7 @@ results inside a json file named `emotions/emotions-{MONTH}.json`.
 One main contribution of our project is the visualisation of how
 topics and emotions evolve in time, which can be produced using
 ```
-python visualise.py
+python visualise.py topic_emotion
 ```
 The figure should look like
 ![topic_emotion](figures/topic_emotion.jpg)
@@ -84,7 +84,13 @@ The figure should look like
 ## More visualisations
 
 We also provide animated visualisations, which can be produced using 
-the commented out sections in `visualise.py`:
+the following commands
+```
+python visualise.py scatter_animation
+python visualise.py matrix_animation
+```
+
+The result should look like
 ![scatter_animation](figures/scatter_animation.gif)
 ![matrix_animation](figures/matrix_animation.gif)
 

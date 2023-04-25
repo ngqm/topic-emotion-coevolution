@@ -5,6 +5,7 @@ Plot cosine similarity matrices from data files
 
 import json
 import itertools
+import sys
 
 from numpy.linalg import norm
 
@@ -89,38 +90,44 @@ for i in range(len(MONTHS)-1):
   next = emotion_data[i+1]
   emotion_matrices.append(similarity(current, next))
 
+# -------------------------------------------------------------------
+# GET SYS ARGV
+mode = sys.argv[2]
+
 
 # -------------------------------------------------------------------
 # VISUALISE MATRICES
 
-# N_PERIODS = 6
+if mode == 'topic_emotion':
 
-# fig, axes = plt.subplots(nrows=2, ncols=N_PERIODS+1, figsize=(20,6)) 
+  N_PERIODS = 6
 
-# for index, ax in enumerate(itertools.chain(*axes)): 
-#   if index == 0: 
-#     ax.axis('off') 
-#     ax.text(-0.5, 0.5, "Topic Similarity", size='x-large') 
-#   elif index == N_PERIODS+1: 
-#     ax.axis('off') 
-#     ax.text(-0.5, 0.5, "Emotion Similarity", size='x-large') 
-#   elif index in range(1, N_PERIODS+1):
-#     im = ax.matshow(topic_matrices[index-1], cmap='Blues') 
-#     ax.xaxis.set_ticks_position('none') 
-#     ax.yaxis.set_ticks_position('none') 
-#     ax.grid() 
-#   else:
-#     im = ax.matshow(emotion_matrices[index-N_PERIODS-2], cmap='Blues') 
-#     ax.xaxis.set_ticks_position('none') 
-#     ax.yaxis.set_ticks_position('none') 
-#     ax.grid()
-#   if index in range(1, N_PERIODS+1): 
-#     ax.set_title(f"{MONTHS[index]} and {MONTHS[index+1]}", size='small')
+  fig, axes = plt.subplots(nrows=2, ncols=N_PERIODS+1, figsize=(20,6)) 
 
-# fig.colorbar(im, ax=axes.ravel().tolist())
-# fig.suptitle("Similarity of Topics and Their Emotions over Time") 
-# plt.savefig("topic_emotion.jpg")
-# plt.cla()
+  for index, ax in enumerate(itertools.chain(*axes)): 
+    if index == 0: 
+      ax.axis('off') 
+      ax.text(-0.5, 0.5, "Topic Similarity", size='x-large') 
+    elif index == N_PERIODS+1: 
+      ax.axis('off') 
+      ax.text(-0.5, 0.5, "Emotion Similarity", size='x-large') 
+    elif index in range(1, N_PERIODS+1):
+      im = ax.matshow(topic_matrices[index-1], cmap='Blues') 
+      ax.xaxis.set_ticks_position('none') 
+      ax.yaxis.set_ticks_position('none') 
+      ax.grid() 
+    else:
+      im = ax.matshow(emotion_matrices[index-N_PERIODS-2], cmap='Blues') 
+      ax.xaxis.set_ticks_position('none') 
+      ax.yaxis.set_ticks_position('none') 
+      ax.grid()
+    if index in range(1, N_PERIODS+1): 
+      ax.set_title(f"{MONTHS[index]} and {MONTHS[index+1]}", size='small')
+
+  fig.colorbar(im, ax=axes.ravel().tolist())
+  fig.suptitle("Similarity of Topics and Their Emotions over Time") 
+  plt.savefig("topic_emotion.jpg")
+  plt.cla()
 
 # N_PERIODS = len(MONTHS) - 1
 
@@ -128,116 +135,125 @@ for i in range(len(MONTHS)-1):
 # --------------------------------------------------------------------
 # SCATTER PLOTS
 
-DELTA = 0.05
 
-fig, axes = plt.subplots(nrows=3, ncols=int(N_PERIODS/3)+1, figsize=(30,20)) 
+if mode == 'scatter':
+  DELTA = 0.05
 
-for index, ax in enumerate(itertools.chain(*axes)): 
-  if index >= N_PERIODS:
-    ax.axis('off')
-    break
-  else:
-    x = topic_matrices[index].flatten()
-    y = emotion_matrices[index].flatten()
-    ax.scatter(x, y, alpha=.5)
-    ax.set_xlim(-DELTA, 1+DELTA)
-    ax.set_ylim(0.2-DELTA, 1+DELTA)    
-    ax.set_xlabel('Topic similarity')
-    ax.set_ylabel('Emotion similarity')
-    ax.set_title(f'{MONTHS[index]} and {MONTHS[index+1]}')
+  fig, axes = plt.subplots(nrows=3, ncols=int(N_PERIODS/3)+1, figsize=(30,20)) 
 
-plt.suptitle('Distribution of Topic and Emotion Similarity')
-plt.savefig('scatter.jpg')
-plt.cla() 
+  for index, ax in enumerate(itertools.chain(*axes)): 
+    if index >= N_PERIODS:
+      ax.axis('off')
+      break
+    else:
+      x = topic_matrices[index].flatten()
+      y = emotion_matrices[index].flatten()
+      ax.scatter(x, y, alpha=.5)
+      ax.set_xlim(-DELTA, 1+DELTA)
+      ax.set_ylim(0.2-DELTA, 1+DELTA)    
+      ax.set_xlabel('Topic similarity')
+      ax.set_ylabel('Emotion similarity')
+      ax.set_title(f'{MONTHS[index]} and {MONTHS[index+1]}')
+
+  plt.suptitle('Distribution of Topic and Emotion Similarity')
+  plt.savefig('scatter.jpg')
+  plt.cla() 
 
 
 # # --------------------------------------------------------------------
 # # COMBINED SCATTER PLOT
 
-# x = np.array(topic_matrices).flatten()
-# y = np.array(emotion_matrices).flatten()
+if mode == 'combined_scatter':
 
-# DELTA = 0.05
-# left, width = 0.1, 0.65
-# bottom, height = 0.1, 0.65
-# spacing = 0.005
+  x = np.array(topic_matrices).flatten()
+  y = np.array(emotion_matrices).flatten()
 
-# rect_scatter = [left, bottom, width, height]
-# rect_histx = [left, bottom + height + spacing, width, 0.2]
-# rect_histy = [left + width + spacing, bottom, 0.2, height]
+  DELTA = 0.05
+  left, width = 0.1, 0.65
+  bottom, height = 0.1, 0.65
+  spacing = 0.005
 
-# fig = plt.figure(figsize=(10, 10))
+  rect_scatter = [left, bottom, width, height]
+  rect_histx = [left, bottom + height + spacing, width, 0.2]
+  rect_histy = [left + width + spacing, bottom, 0.2, height]
 
-# ax = fig.add_axes(rect_scatter)
-# ax_histx = fig.add_axes(rect_histx, sharex=ax)
-# ax_histy = fig.add_axes(rect_histy, sharey=ax)
+  fig = plt.figure(figsize=(10, 10))
 
-# scatter_hist(x, y, ax, ax_histx, ax_histy)
-# ax.set_xlim(-DELTA, 1+DELTA)
-# ax.set_ylim(0.2-DELTA, 1+DELTA)    
-# ax.set_xlabel('Topic similarity')
-# ax.set_ylabel('Emotion similarity')
-# plt.suptitle(f'Distribution of Topic and Emotion Similarity ({MONTHS[0]} to {MONTHS[-1]})')
-# plt.savefig('combined_scatter.jpg')
-# plt.cla()
+  ax = fig.add_axes(rect_scatter)
+  ax_histx = fig.add_axes(rect_histx, sharex=ax)
+  ax_histy = fig.add_axes(rect_histy, sharey=ax)
+
+  scatter_hist(x, y, ax, ax_histx, ax_histy)
+  ax.set_xlim(-DELTA, 1+DELTA)
+  ax.set_ylim(0.2-DELTA, 1+DELTA)    
+  ax.set_xlabel('Topic similarity')
+  ax.set_ylabel('Emotion similarity')
+  plt.suptitle(f'Distribution of Topic and Emotion Similarity ({MONTHS[0]} to {MONTHS[-1]})')
+  plt.savefig('combined_scatter.jpg')
+  plt.cla()
 
 
 # --------------------------------------------------------------------
 # ANIMATED SIMILARITY DISTRIBUTION
 
-# DELTA = 0.05
+if mode == 'scatter_animation':
 
-# x = topic_matrices[0].flatten()
-# y = emotion_matrices[0].flatten()
-# fig = plt.figure(figsize=(12,12))
-# scatter = plt.scatter(x, y, alpha=.5, s=100)
-# plt.xlim(-DELTA, 1+DELTA)
-# plt.ylim(0.2-DELTA, 1+DELTA)
-# plt.xlabel('Topic Similarity')
-# plt.ylabel('Emotion Similarity')
+  DELTA = 0.05
 
-# def update(i, topic_matrices, emotion_matrices, scatter):
-#   x = topic_matrices[i].flatten()
-#   y = emotion_matrices[i].flatten()
-#   scatter.set_offsets(np.array([x, y]).T)
-#   plt.title(f'Topic and Emotion Similarity between Period i={i} and Period i+1={i+1}')
-#   return scatter,
+  x = topic_matrices[0].flatten()
+  y = emotion_matrices[0].flatten()
+  fig = plt.figure(figsize=(12,12))
+  scatter = plt.scatter(x, y, alpha=.5, s=100)
+  plt.xlim(-DELTA, 1+DELTA)
+  plt.ylim(0.2-DELTA, 1+DELTA)
+  plt.xlabel('Topic Similarity')
+  plt.ylabel('Emotion Similarity')
 
-# ani = animation.FuncAnimation(fig, update, frames=N_PERIODS, 
-#     fargs=(topic_matrices, emotion_matrices, scatter),
-#     interval = 200, blit=True)
-# ani.save('scatter_animation.gif')
-# plt.cla()
+  def update(i, topic_matrices, emotion_matrices, scatter):
+    x = topic_matrices[i].flatten()
+    y = emotion_matrices[i].flatten()
+    scatter.set_offsets(np.array([x, y]).T)
+    plt.title(f'Topic and Emotion Similarity between Period i={i} and Period i+1={i+1}')
+    return scatter,
+
+  ani = animation.FuncAnimation(fig, update, frames=N_PERIODS, 
+      fargs=(topic_matrices, emotion_matrices, scatter),
+      interval = 200, blit=True)
+  ani.save('scatter_animation.gif')
+  plt.cla()
+
 
 # -------------------------------------------------------------------
 # ANIMATED TOPIC AND EMOTION SIMILARITY MATRICES
 
-# x = emotion_matrices[0]
-# y = topic_matrices[0]
-# fig, (topic, emotion) = plt.subplots(1, 2, figsize=(20,10))
-# plot_topic    = topic.imshow(x, cmap='Blues')
-# plot_emotion  = emotion.imshow(y, cmap='Blues')
-# plot = [plot_topic, plot_emotion]
+if mode == 'matrix_animation':
 
-# topic.grid()
-# emotion.grid()
+  x = emotion_matrices[0]
+  y = topic_matrices[0]
+  fig, (topic, emotion) = plt.subplots(1, 2, figsize=(20,10))
+  plot_topic    = topic.imshow(x, cmap='Blues')
+  plot_emotion  = emotion.imshow(y, cmap='Blues')
+  plot = [plot_topic, plot_emotion]
 
-# def update(i, topic_matrices, emotion_matrices, plot):
-#   x = topic_matrices[i]
-#   y = emotion_matrices[i]
-#   plot[0] = topic.imshow(x, cmap='Blues')
-#   plot[1] = emotion.imshow(y, cmap='Blues')
+  topic.grid()
+  emotion.grid()
 
-#   topic.set_title(f'Topic Similarity between Period i={i} and Period i+1={i+1}')
-#   topic.set_xlabel('Topics of period i+1')
-#   topic.set_ylabel('Topics of period i')
+  def update(i, topic_matrices, emotion_matrices, plot):
+    x = topic_matrices[i]
+    y = emotion_matrices[i]
+    plot[0] = topic.imshow(x, cmap='Blues')
+    plot[1] = emotion.imshow(y, cmap='Blues')
 
-#   emotion.set_title(f'Emotion Similarity between Period i={i} and Period i+1={i+1}')
-#   emotion.set_xlabel('Topics of period i+1')
-#   emotion.set_ylabel('Topics of period i')
-#   return plot
+    topic.set_title(f'Topic Similarity between Period i={i} and Period i+1={i+1}')
+    topic.set_xlabel('Topics of period i+1')
+    topic.set_ylabel('Topics of period i')
 
-# ani = animation.FuncAnimation(fig, update, frames=N_PERIODS, 
-#     fargs=(topic_matrices, emotion_matrices, plot),
-#     interval = 200, blit=True)
-# ani.save('matrix_animation.gif')
+    emotion.set_title(f'Emotion Similarity between Period i={i} and Period i+1={i+1}')
+    emotion.set_xlabel('Topics of period i+1')
+    emotion.set_ylabel('Topics of period i')
+    return plot
+
+  ani = animation.FuncAnimation(fig, update, frames=N_PERIODS, 
+      fargs=(topic_matrices, emotion_matrices, plot),
+      interval = 200, blit=True)
+  ani.save('matrix_animation.gif')
