@@ -5,12 +5,11 @@ in order:
 - Delete links
 - Delete non-alphabetical and non-space characters
 - Lemmatise
-Usage: set MONTH and YEAR in section CONSTANTS, then 
-run the file
 """
 
 import pandas as pd
 import re  # for regex
+import sys
 
 # to repress pandas warnings
 import warnings
@@ -27,8 +26,8 @@ from time import time
 
 # ----------------------------------------------------------------- #
 # CONSTANTS
-MONTH     = 12    # month of data to clean
-YEAR      = 2016  # year of data to clean
+MONTH     = sys.argv[1] # month of data to clean
+YEAR      = sys.argv[2] # year of data to clean
 
 
 # ----------------------------------------------------------------- #
