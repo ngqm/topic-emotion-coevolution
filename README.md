@@ -8,7 +8,7 @@ This project is submitted as part of the final project of HSS302 Computational S
 offered in Fall 2021. The report is available [here](https://ngqm.github.io/blog/css-paper.pdf). This 
 repository includes our source code and documentation to reproduce our results.
 
-## Pre-requisite
+## Prerequisite
 
 To run our source code, you will need to install
 - the PyData stack (numpy, pandas, and matplotlib)
